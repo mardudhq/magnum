@@ -4,9 +4,15 @@ import { AppService } from './app.service';
 import { ConfigModule } from '@nestjs/config';
 import { CommonModule } from './common/common.module';
 import { SearchModule } from './search/search.module';
+import { SymbolListModule } from './symbol-list/symbol-list.module';
 
 @Module({
-  imports: [ConfigModule.forRoot(), CommonModule, SearchModule],
+  imports: [
+    ConfigModule.forRoot(),
+    CommonModule,
+    SearchModule,
+    SymbolListModule,
+  ],
   controllers: [AppController],
   providers: [AppService],
 })
