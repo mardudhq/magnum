@@ -54,7 +54,7 @@ export class SymbolListService {
   }
 
   listAllTradables() {
-    return this.httpService.get<any[]>(ROUTES.TRADABLE_LIST).pipe(
+    return this.httpService.get<SymbolResult[]>(ROUTES.TRADABLE_LIST).pipe(
       map((res) => res.data),
       catchError((error: AxiosError) => {
         console.log(error);
