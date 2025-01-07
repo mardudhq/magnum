@@ -1,6 +1,5 @@
-import { Module } from '@nestjs/common';
-import { MarketDataService } from './market-data.service';
 import { HttpModule } from '@nestjs/axios';
+import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import {
   FMP_API_KEY,
@@ -8,7 +7,6 @@ import {
   FMP_BASE_URL,
   FMP_SCHEMA,
 } from 'src/config/config.constant';
-import { MarketDataController } from './market-data.controller';
 
 @Module({
   imports: [
@@ -30,8 +28,6 @@ import { MarketDataController } from './market-data.controller';
       inject: [ConfigService],
     }),
   ],
-  exports: [MarketDataService],
-  providers: [MarketDataService],
-  controllers: [MarketDataController],
+  exports: [HttpModule],
 })
-export class MarketDataModule {}
+export class CommonModule {}

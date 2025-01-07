@@ -1,11 +1,12 @@
 import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { MarketDataModule } from './market-data/market-data.module';
 import { ConfigModule } from '@nestjs/config';
+import { CommonModule } from './common/common.module';
+import { SearchModule } from './search/search.module';
 
 @Module({
-  imports: [ConfigModule.forRoot(), MarketDataModule],
+  imports: [ConfigModule.forRoot(), CommonModule, SearchModule],
   controllers: [AppController],
   providers: [AppService],
 })
