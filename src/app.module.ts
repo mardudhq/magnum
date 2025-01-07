@@ -6,6 +6,7 @@ import { CommonModule } from './common/common.module';
 import { SearchModule } from './search/search.module';
 import { SymbolListModule } from './symbol-list/symbol-list.module';
 import { CompanyModule } from './company/company.module';
+import { QuoteModule } from './quote/quote.module';
 
 @Module({
   imports: [
@@ -14,6 +15,7 @@ import { CompanyModule } from './company/company.module';
     SearchModule,
     SymbolListModule,
     CompanyModule,
+    QuoteModule,
   ],
   controllers: [AppController],
   providers: [AppService],
