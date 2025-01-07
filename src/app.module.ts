@@ -5,6 +5,7 @@ import { ConfigModule } from '@nestjs/config';
 import { CommonModule } from './common/common.module';
 import { SearchModule } from './search/search.module';
 import { SymbolListModule } from './symbol-list/symbol-list.module';
+import { CompanyModule } from './company/company.module';
 
 @Module({
   imports: [
@@ -12,6 +13,7 @@ import { SymbolListModule } from './symbol-list/symbol-list.module';
     CommonModule,
     SearchModule,
     SymbolListModule,
+    CompanyModule,
   ],
   controllers: [AppController],
   providers: [AppService],
