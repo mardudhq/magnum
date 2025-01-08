@@ -7,6 +7,7 @@ import { SearchModule } from './search/search.module';
 import { SymbolListModule } from './symbol-list/symbol-list.module';
 import { CompanyModule } from './company/company.module';
 import { QuoteModule } from './quote/quote.module';
+import { HistoricalModule } from './historical/historical.module';
 
 @Module({
   imports: [
@@ -16,6 +17,7 @@ import { QuoteModule } from './quote/quote.module';
     SymbolListModule,
     CompanyModule,
     QuoteModule,
+    HistoricalModule,
   ],
   controllers: [AppController],
   providers: [AppService],
