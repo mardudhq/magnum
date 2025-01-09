@@ -8,6 +8,7 @@ import { SymbolListModule } from './symbol-list/symbol-list.module';
 import { CompanyModule } from './company/company.module';
 import { QuoteModule } from './quote/quote.module';
 import { HistoricalModule } from './historical/historical.module';
+import { TechnicalIndicatorModule } from './technical-indicator/technical-indicator.module';
 
 @Module({
   imports: [
@@ -18,6 +19,7 @@ import { HistoricalModule } from './historical/historical.module';
     CompanyModule,
     QuoteModule,
     HistoricalModule,
+    TechnicalIndicatorModule,
   ],
   controllers: [AppController],
   providers: [AppService],
