@@ -11,7 +11,7 @@ import {
   Logger,
 } from '@nestjs/common';
 import { Quote } from './interface/quote.interface';
-import { ROUTES } from './company.constant';
+import { ROUTES } from './quote.constant';
 import { AxiosError } from 'axios';
 import { catchError, map } from 'rxjs';
 import { ShortQuote } from './interface/short-quote.interface';
@@ -67,5 +67,16 @@ export class QuoteService {
           throw new InternalServerErrorException('Something wrong happend.');
         }),
       );
+  }
+
+  getMarketsPerformance() {
+    return this.httpService.get<Quote[]>(ROUTES.MARKETS_PERF).pipe(
+      map((res) => res.data),
+      catchError((error: AxiosError) => {
+        console.log(error);
+        this.logger.error(error.message);
+        throw new InternalServerErrorException('Something wrong happend.');
+      }),
+    );
   }
 }

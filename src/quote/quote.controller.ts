@@ -24,4 +24,9 @@ export class QuoteController {
   getStockPriceChange(@Param('symbol') symbol: string) {
     return this.quoteService.getStockPriceChange(symbol);
   }
+
+  @Get('/market-performance/all')
+  getMarketsPerformance() {
+    return this.quoteService.getMarketsPerformance();
+  }
 }
