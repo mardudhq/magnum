@@ -27,7 +27,6 @@ export class QuoteService {
     return this.httpService.get<Quote[]>(ROUTES.FULL_QUOTE(symbol)).pipe(
       map((res) => res.data),
       catchError((error: AxiosError) => {
-        console.log(error);
         this.logger.error(error.message);
         throw new InternalServerErrorException('Something wrong happend.');
       }),
@@ -38,7 +37,6 @@ export class QuoteService {
     return this.httpService.get<ShortQuote[]>(ROUTES.SHORT_QUOTE(symbol)).pipe(
       map((res) => res.data),
       catchError((error: AxiosError) => {
-        console.log(error);
         this.logger.error(error.message);
         throw new InternalServerErrorException('Something wrong happend.');
       }),
@@ -49,7 +47,6 @@ export class QuoteService {
     return this.httpService.get<Quote[]>(ROUTES.EXCHANGE_QUOTES(exchange)).pipe(
       map((res) => res.data),
       catchError((error: AxiosError) => {
-        console.log(error);
         this.logger.error(error.message);
         throw new InternalServerErrorException('Something wrong happend.');
       }),
@@ -62,7 +59,6 @@ export class QuoteService {
       .pipe(
         map((res) => res.data),
         catchError((error: AxiosError) => {
-          console.log(error);
           this.logger.error(error.message);
           throw new InternalServerErrorException('Something wrong happend.');
         }),
@@ -73,7 +69,6 @@ export class QuoteService {
     return this.httpService.get<Quote[]>(ROUTES.MARKETS_PERF).pipe(
       map((res) => res.data),
       catchError((error: AxiosError) => {
-        console.log(error);
         this.logger.error(error.message);
         throw new InternalServerErrorException('Something wrong happend.');
       }),

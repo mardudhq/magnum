@@ -35,7 +35,6 @@ export class HistoricalService {
       .pipe(
         map((res) => res.data),
         catchError((error: AxiosError) => {
-          console.log(error);
           this.logger.error(error.message);
           throw new InternalServerErrorException('Something wrong happend.');
         }),
@@ -49,7 +48,6 @@ export class HistoricalService {
       .pipe(
         map((res) => res.data),
         catchError((error: AxiosError) => {
-          console.log(error);
           this.logger.error(error.message);
           throw new InternalServerErrorException('Something wrong happend.');
         }),

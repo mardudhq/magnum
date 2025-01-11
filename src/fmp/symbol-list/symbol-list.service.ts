@@ -24,7 +24,6 @@ export class SymbolListService {
     return this.httpService.get<SymbolResult[]>(ROUTES.ALL_STOCK_LIST).pipe(
       map((res) => res.data),
       catchError((error: AxiosError) => {
-        console.log(error);
         this.logger.error(error.message);
         throw new InternalServerErrorException('Something wrong happend.');
       }),
@@ -35,7 +34,6 @@ export class SymbolListService {
     return this.httpService.get<SymbolResult[]>(ROUTES.ALL_ETF_LIST).pipe(
       map((res) => res.data),
       catchError((error: AxiosError) => {
-        console.log(error);
         this.logger.error(error.message);
         throw new InternalServerErrorException('Something wrong happend.');
       }),
@@ -46,7 +44,6 @@ export class SymbolListService {
     return this.httpService.get<string[]>(ROUTES.STATEMENT_LIST).pipe(
       map((res) => res.data),
       catchError((error: AxiosError) => {
-        console.log(error);
         this.logger.error(error.message);
         throw new InternalServerErrorException('Something wrong happend.');
       }),
@@ -57,7 +54,6 @@ export class SymbolListService {
     return this.httpService.get<SymbolResult[]>(ROUTES.TRADABLE_LIST).pipe(
       map((res) => res.data),
       catchError((error: AxiosError) => {
-        console.log(error);
         this.logger.error(error.message);
         throw new InternalServerErrorException('Something wrong happend.');
       }),
@@ -70,7 +66,6 @@ export class SymbolListService {
       .pipe(
         map((res) => res.data),
         catchError((error: AxiosError) => {
-          console.log(error);
           this.logger.error(error.message);
           throw new InternalServerErrorException('Something wrong happend.');
         }),
@@ -81,7 +76,6 @@ export class SymbolListService {
     return this.httpService.get<IndexResult[]>(ROUTES.INDEX_LIST).pipe(
       map((res) => res.data),
       catchError((error: AxiosError) => {
-        console.log(error);
         this.logger.error(error.message);
         throw new InternalServerErrorException('Something wrong happend.');
       }),

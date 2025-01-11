@@ -35,7 +35,6 @@ export class CompanyService {
       .pipe(
         map((res) => res.data),
         catchError((error: AxiosError) => {
-          console.log(error);
           this.logger.error(error.message);
           throw new InternalServerErrorException('Something wrong happend.');
         }),
@@ -51,7 +50,6 @@ export class CompanyService {
       .pipe(
         map((res) => res.data),
         catchError((error: AxiosError) => {
-          console.log(error);
           this.logger.error(error.message);
           throw new InternalServerErrorException('Something wrong happend.');
         }),
@@ -64,7 +62,6 @@ export class CompanyService {
       .pipe(
         map((res) => res.data),
         catchError((error: AxiosError) => {
-          console.log(error);
           this.logger.error(error.message);
           throw new InternalServerErrorException('Something wrong happend.');
         }),
@@ -77,7 +74,6 @@ export class CompanyService {
       .pipe(
         map((res) => res.data),
         catchError((error: AxiosError) => {
-          console.log(error);
           this.logger.error(error.message);
           throw new InternalServerErrorException('Something wrong happend.');
         }),
@@ -95,7 +91,6 @@ export class CompanyService {
       .pipe(
         map((res) => res.data),
         catchError((error: AxiosError) => {
-          console.log(error);
           this.logger.error(error.message);
           throw new InternalServerErrorException('Something wrong happend.');
         }),
@@ -106,7 +101,6 @@ export class CompanyService {
     return this.httpService.get<string[]>(ROUTES.ALL_COUNTRIES).pipe(
       map((res) => res.data),
       catchError((error: AxiosError) => {
-        console.log(error);
         this.logger.error(error.message);
         throw new InternalServerErrorException('Something wrong happend.');
       }),
@@ -124,7 +118,6 @@ export class CompanyService {
       .pipe(
         map((res) => res.data),
         catchError((error: AxiosError) => {
-          console.log(error);
           this.logger.error(error.message);
           throw new InternalServerErrorException('Something wrong happend.');
         }),
@@ -137,7 +130,6 @@ export class CompanyService {
       .pipe(
         map((res) => res.data),
         catchError((error: AxiosError) => {
-          console.log(error);
           this.logger.error(error.message);
           throw new InternalServerErrorException('Something wrong happend.');
         }),
@@ -150,7 +142,6 @@ export class CompanyService {
       .pipe(
         map((res) => res.data),
         catchError((error: AxiosError) => {
-          console.log(error);
           this.logger.error(error.message);
           throw new InternalServerErrorException('Something wrong happend.');
         }),
@@ -161,7 +152,6 @@ export class CompanyService {
     return this.httpService.get<string[]>(ROUTES.ALL_SECTORS).pipe(
       map((res) => res.data),
       catchError((error: AxiosError) => {
-        console.log(error);
         this.logger.error(error.message);
         throw new InternalServerErrorException('Something wrong happend.');
       }),
@@ -172,7 +162,6 @@ export class CompanyService {
     return this.httpService.get<string[]>(ROUTES.ALL_INDUSTRIES).pipe(
       map((res) => res.data),
       catchError((error: AxiosError) => {
-        console.log(error);
         this.logger.error(error.message);
         throw new InternalServerErrorException('Something wrong happend.');
       }),
@@ -183,7 +172,6 @@ export class CompanyService {
     return this.httpService.get<string[]>(ROUTES.ALL_EXCHANGES).pipe(
       map((res) => res.data),
       catchError((error: AxiosError) => {
-        console.log(error);
         this.logger.error(error.message);
         throw new InternalServerErrorException('Something wrong happend.');
       }),

@@ -3,14 +3,9 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { CommonModule } from './common/common.module';
-import { SearchModule } from './search/search.module';
-import { SymbolListModule } from './symbol-list/symbol-list.module';
-import { CompanyModule } from './company/company.module';
-import { QuoteModule } from './quote/quote.module';
-import { HistoricalModule } from './historical/historical.module';
-import { TechnicalIndicatorModule } from './technical-indicator/technical-indicator.module';
 import { MongooseModule } from '@nestjs/mongoose';
 import { Connection } from 'mongoose';
+import { FmpModule } from './fmp/fmp.module';
 
 @Module({
   imports: [
@@ -29,23 +24,12 @@ import { Connection } from 'mongoose';
           connection.on('disconnected', () =>
             Logger.log('MongoDB DISCONNECTED', AppModule.name),
           );
-          connection.on('reconnected', () =>
-            Logger.log('MongoDB RECONNECTED', AppModule.name),
-          );
-          connection.on('disconnecting', () =>
-            Logger.log('MongoDB DISCONNECTING', AppModule.name),
-          );
         },
       }),
       inject: [ConfigService],
     }),
     CommonModule,
-    SearchModule,
-    SymbolListModule,
-    CompanyModule,
-    QuoteModule,
-    HistoricalModule,
-    TechnicalIndicatorModule,
+    FmpModule,
   ],
   controllers: [AppController],
   providers: [AppService],

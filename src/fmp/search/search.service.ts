@@ -40,7 +40,6 @@ export class SearchService {
     return this.httpService.get<CompanySearchResult[]>(route, { params }).pipe(
       map((res) => res.data),
       catchError((error: AxiosError) => {
-        console.log(error);
         this.logger.error(error.message);
         throw new InternalServerErrorException('Something wrong happend.');
       }),

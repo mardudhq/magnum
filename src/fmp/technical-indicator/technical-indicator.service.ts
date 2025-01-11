@@ -30,7 +30,6 @@ export class TechnicalIndicatorService {
       .pipe(
         map((res) => res.data),
         catchError((error: AxiosError) => {
-          console.log(error);
           this.logger.error(error.message);
           throw new InternalServerErrorException('Something wrong happend.');
         }),
