@@ -11,6 +11,7 @@ import {
 } from './schemas/company-registry.schema';
 import { CompanyRegistryService } from './company-registry.service';
 import { CompanyRegistryController } from './company-registry.controller';
+import { CompanyRegistryScheduler } from './company-registry-scheduler';
 
 @Module({
   imports: [
@@ -21,7 +22,7 @@ import { CompanyRegistryController } from './company-registry.controller';
       },
     ]),
   ],
-  providers: [CompanyRegistryService],
+  providers: [CompanyRegistryService, CompanyRegistryScheduler],
   controllers: [CompanyRegistryController],
 })
 export class CompanyRegistryModule {}
