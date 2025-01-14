@@ -5,8 +5,6 @@ services:
     image: mongo:latest
     restart: always
     ports:
-      - "27017:27017"
+      - '27017:27017'
     environment:
-      MONGO_INITDB_DATABASE: market_data
-      MONGO_INITDB_ROOT_USERNAME: root
-      MONGO_INITDB_ROOT_PASSWORD: password
+      MONGODB_DATABASE: market_data

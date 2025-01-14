@@ -6,6 +6,7 @@ import { CommonModule } from './common/common.module';
 import { MongooseModule } from '@nestjs/mongoose';
 import { Connection } from 'mongoose';
 import { FmpModule } from './fmp/fmp.module';
+import { CompanyRegistryModule } from './company-registry/company-registry.module';
 
 @Module({
   imports: [
@@ -30,6 +31,7 @@ import { FmpModule } from './fmp/fmp.module';
     }),
     CommonModule,
     FmpModule,
+    CompanyRegistryModule,
   ],
   controllers: [AppController],
   providers: [AppService],
