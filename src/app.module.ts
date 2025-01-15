@@ -9,6 +9,7 @@ import { FmpModule } from './fmp/fmp.module';
 import { CompanyRegistryModule } from './company-registry/company-registry.module';
 import { ScheduleModule } from '@nestjs/schedule';
 import { YahooFinanceModule } from './yahoo-finance/yahoo-finance.module';
+import { WebSocketModule } from 'nestjs-websocket';
 
 @Module({
   imports: [
@@ -29,6 +30,13 @@ import { YahooFinanceModule } from './yahoo-finance/yahoo-finance.module';
             Logger.log('MongoDB DISCONNECTED', AppModule.name),
           );
         },
+      }),
+      inject: [ConfigService],
+    }),
+    WebSocketModule.forRootAsync({
+      imports: [ConfigModule],
+      useFactory: (configService: ConfigService) => ({
+        url: configService.get<string>('YF_SERVER_URL'),
       }),
       inject: [ConfigService],
     }),
