@@ -24,5 +24,6 @@ import { CompanyRegistryScheduler } from './company-registry-scheduler';
   ],
   providers: [CompanyRegistryService, CompanyRegistryScheduler],
   controllers: [CompanyRegistryController],
+  exports: [CompanyRegistryService],
 })
 export class CompanyRegistryModule {}

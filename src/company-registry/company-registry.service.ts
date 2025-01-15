@@ -1,9 +1,4 @@
-import {
-  ConflictException,
-  Injectable,
-  Logger,
-  OnModuleInit,
-} from '@nestjs/common';
+import { ConflictException, Injectable, Logger } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { CompanyRegistry } from './schemas/company-registry.schema';
 import { Model } from 'mongoose';
@@ -11,17 +6,13 @@ import { fetchSymbols } from 'tadawul-symbol';
 import { CreateCompanyRegistryDto } from './dto/create-company-registry.dto';
 
 @Injectable()
-export class CompanyRegistryService implements OnModuleInit {
+export class CompanyRegistryService {
   private readonly logger = new Logger(CompanyRegistryService.name);
 
   constructor(
     @InjectModel(CompanyRegistry.name)
     private readonly companyRegisteryModel: Model<CompanyRegistry>,
   ) {}
-
-  onModuleInit() {
-    this.logger.debug(`${CompanyRegistryService.name} init`);
-  }
 
   findAll() {
     return this.companyRegisteryModel.find({});

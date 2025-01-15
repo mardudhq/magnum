@@ -7,10 +7,8 @@ export class CompanyRegistryController {
     private readonly companyRegistryService: CompanyRegistryService,
   ) {}
 
-  // FOR TESTING PURPOSE
-  // REMOVE IT
   @Get()
-  async _this_is_for_testing_service_methods_remove_it_later() {
+  async _experimental_comapany_registry_insertion() {
     await this.companyRegistryService.performCompanyRegistryInsertion();
     await this.companyRegistryService.performCompanyRegistryDeactivation();
   }

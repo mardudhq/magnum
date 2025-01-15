@@ -8,6 +8,7 @@ import { Connection } from 'mongoose';
 import { FmpModule } from './fmp/fmp.module';
 import { CompanyRegistryModule } from './company-registry/company-registry.module';
 import { ScheduleModule } from '@nestjs/schedule';
+import { YahooFinanceModule } from './yahoo-finance/yahoo-finance.module';
 
 @Module({
   imports: [
@@ -34,6 +35,7 @@ import { ScheduleModule } from '@nestjs/schedule';
     CommonModule,
     FmpModule,
     CompanyRegistryModule,
+    YahooFinanceModule,
   ],
   controllers: [AppController],
   providers: [AppService],
