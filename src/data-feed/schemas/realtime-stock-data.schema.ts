@@ -1,7 +1,13 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
 
-@Schema()
+@Schema({
+  timestamps: true,
+  timeseries: {
+    timeField: 'time',
+    metaField: 'id',
+  },
+})
 export class RealtimeStockData extends Document {
   @Prop({ required: true })
   id: string;

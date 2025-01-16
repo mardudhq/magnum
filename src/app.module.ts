@@ -10,6 +10,7 @@ import { CompanyRegistryModule } from './company-registry/company-registry.modul
 import { ScheduleModule } from '@nestjs/schedule';
 import { YahooFinanceModule } from './yahoo-finance/yahoo-finance.module';
 import { WebSocketModule } from 'nestjs-websocket';
+import { DataFeedModule } from './data-feed/data-feed.module';
 
 @Module({
   imports: [
@@ -44,6 +45,7 @@ import { WebSocketModule } from 'nestjs-websocket';
     FmpModule,
     CompanyRegistryModule,
     YahooFinanceModule,
+    DataFeedModule,
   ],
   controllers: [AppController],
   providers: [AppService],

@@ -28,7 +28,7 @@ export class DataFeedService implements OnModuleInit {
 
   async onModuleInit() {
     try {
-      const root = await load('src/yahoo-finance/data-feed/PricingData.proto');
+      const root = await load('src/data-feed/proto/PricingData.proto');
       this.ticker = root.lookupType('PricingData');
       const companies = await this.companyRegistryService.findAll();
       this.tickers = companies
@@ -52,10 +52,28 @@ export class DataFeedService implements OnModuleInit {
 
   @OnMessage()
   async message(data: WebSocketClient.Data) {
-    const message = this.ticker
-      .decode(Buffer.from(data.toString(), 'base64'))
-      .toJSON() as IRealtimeStockData;
     try {
+      const message = this.ticker
+        .decode(Buffer.from(data.toString(), 'base64'))
+        .toJSON() as IRealtimeStockData;
+
+      const {
+        id,
+        exchange,
+        time,
+        price,
+        change,
+        changePercent,
+        quoteType,
+        marketHours,
+      } = message;
+
+      const d = new Date(+time);
+
+      console.log(
+        `[${d.getDay()}/${d.getMonth() + 1}/${d.getFullYear()} ${d.toLocaleTimeString()}]\t${id}\t${price.toFixed(2)}\t${change.toFixed(2)}\t${changePercent.toFixed(2)}`,
+      );
+
       await this.realtimeStockDataModel.create(message);
     } catch (error) {
       this.logger.error(
