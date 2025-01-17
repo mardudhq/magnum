@@ -1,6 +1,7 @@
-import { Transform } from 'class-transformer';
-import { IsDate, IsNumber, IsPositive, IsString } from 'class-validator';
+import { Expose, Transform } from 'class-transformer';
+import { IsDate, IsNumber, IsString } from 'class-validator';
 
+@Expose()
 export class TickerDto {
   @IsDate()
   @Transform(({ value }) => new Date(Number(value)), { toClassOnly: true })
@@ -10,10 +11,12 @@ export class TickerDto {
   id: string;
 
   @IsString()
+  currency: string;
+
+  @IsString()
   exchange: string;
 
   @IsNumber()
-  @IsPositive()
   price: number;
 
   @IsNumber()
@@ -23,9 +26,8 @@ export class TickerDto {
   changePercent: number = 0;
 
   @IsNumber()
-  @IsPositive()
   dayVolume: number = 0;
 
-  @IsNumber()
-  priceHint: number;
+  @IsString()
+  priceHint: string;
 }

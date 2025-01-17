@@ -1,13 +1,12 @@
 import { Module } from '@nestjs/common';
-import { TickerProcessorService } from './ticker-processor.service';
 import { MongooseModule } from '@nestjs/mongoose';
 import {
   RealtimeStockData,
   RealtimeStockDataSchema,
 } from 'src/data-feed/schemas/realtime-stock-data.schema';
+import { TickerProcessorService } from './ticker-processor.service';
 
 @Module({
-  providers: [TickerProcessorService],
   imports: [
     MongooseModule.forFeature([
       {
@@ -16,5 +15,6 @@ import {
       },
     ]),
   ],
+  providers: [TickerProcessorService],
 })
 export class TickerProcessorModule {}

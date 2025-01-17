@@ -30,6 +30,7 @@ export class DataFeedService implements OnModuleInit {
       this.tickers = companies
         .map((company) => company.symbol)
         .map((symbol) => `${symbol}.SR`);
+      this.tickers = [...this.tickers, ...['NVDA', 'AAPL', 'A', 'AA', 'AACG']];
     } catch (error) {
       if (error instanceof Error) {
         this.logger.error(

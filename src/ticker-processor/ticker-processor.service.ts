@@ -19,13 +19,16 @@ export class TickerProcessorService {
   @OnEvent('ticker.received')
   async handleTickerProcessing(payload: any) {
     try {
-      const ticker = plainToInstance(TickerDto, payload);
+      const ticker = plainToInstance(TickerDto, payload, {
+        excludeExtraneousValues: true,
+      });
       await validateOrReject(ticker);
       console.log(
-        `${ticker.time.toLocaleDateString([], { dateStyle: 'long', timeStyle: 'long' })}\t${ticker.id}\t${ticker.price.toFixed(2)}`,
+        `${ticker.time.toLocaleDateString()} ${ticker.time.toLocaleTimeString()}\t${ticker.id}\t${ticker.price.toFixed(2)}`,
       );
       await this.realtimeStockDataModel.create(ticker);
     } catch (error) {
+      console.log(error);
       if (error instanceof Error) {
         this.logger.error(`Failed to process ticker: ${error.message}`);
       }
