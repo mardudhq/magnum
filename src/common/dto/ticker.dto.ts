@@ -1,33 +1,37 @@
 import { Expose, Transform } from 'class-transformer';
 import { IsDate, IsNumber, IsString } from 'class-validator';
 
-@Expose()
 export class TickerDto {
+  @Expose()
   @IsDate()
   @Transform(({ value }) => new Date(Number(value)), { toClassOnly: true })
   time: Date;
 
+  @Expose()
   @IsString()
   id: string;
 
-  @IsString()
-  currency: string;
-
+  @Expose()
   @IsString()
   exchange: string;
 
+  @Expose()
   @IsNumber()
   price: number;
 
+  @Expose()
   @IsNumber()
   change: number = 0;
 
+  @Expose()
   @IsNumber()
   changePercent: number = 0;
 
-  @IsNumber()
-  dayVolume: number = 0;
+  @Expose()
+  @IsString()
+  dayVolume: string = '';
 
+  @Expose()
   @IsString()
   priceHint: string;
 }
