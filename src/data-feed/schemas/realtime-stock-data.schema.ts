@@ -11,37 +11,25 @@ import { Document } from 'mongoose';
 })
 export class RealtimeStockData extends Document {
   @Prop({ required: true })
-  id: string;
-
-  @Prop({ required: true })
-  price: number;
-
-  @Prop({ required: true })
   time: Date;
+
+  @Prop({ required: true })
+  id: string;
 
   @Prop({ required: true })
   exchange: string;
 
   @Prop({ required: true })
-  quoteType: string;
-
-  @Prop({ required: true })
-  marketHours: string;
-
-  @Prop({ required: true })
-  changePercent: number;
-
-  @Prop({ required: false })
-  dayVolume?: number;
+  price: number;
 
   @Prop({ required: true })
   change: number;
 
-  @Prop({ required: false })
-  lastSize?: number;
+  @Prop({ required: true })
+  changePercent: number;
 
   @Prop({ required: true })
-  priceHint: number;
+  priceHint: string;
 }
 
 export const RealtimeStockDataSchema =

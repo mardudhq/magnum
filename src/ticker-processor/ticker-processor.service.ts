@@ -1,8 +1,6 @@
-import { Injectable, Logger } from '@nestjs/common';
+import { Injectable, Logger, ValidationPipe } from '@nestjs/common';
 import { OnEvent } from '@nestjs/event-emitter';
 import { InjectModel } from '@nestjs/mongoose';
-import { plainToInstance } from 'class-transformer';
-import { validateOrReject } from 'class-validator';
 import { Model } from 'mongoose';
 import { TickerDto } from 'src/common/dto/ticker.dto';
 import { RealtimeStockData } from 'src/data-feed/schemas/realtime-stock-data.schema';
@@ -10,6 +8,10 @@ import { RealtimeStockData } from 'src/data-feed/schemas/realtime-stock-data.sch
 @Injectable()
 export class TickerProcessorService {
   private readonly logger = new Logger(TickerProcessorService.name);
+  private readonly validationPipe = new ValidationPipe({
+    transform: true,
+    whitelist: true,
+  });
 
   constructor(
     @InjectModel(RealtimeStockData.name)
@@ -19,10 +21,11 @@ export class TickerProcessorService {
   @OnEvent('ticker.received')
   async handleTickerProcessing(payload: any) {
     try {
-      const ticker = plainToInstance(TickerDto, payload, {
-        excludeExtraneousValues: true,
-      });
-      await validateOrReject(ticker);
+      const ticker = (await this.validationPipe.transform(payload, {
+        type: 'body',
+        metatype: TickerDto,
+      })) as TickerDto;
+      // Debugging
       console.log(
         `${ticker.time.toLocaleDateString()} ${ticker.time.toLocaleTimeString()}\t${ticker.id}\t${ticker.price.toFixed(2)}`,
       );

@@ -30,9 +30,6 @@ export class DataFeedService implements OnModuleInit {
       this.tickers = companies
         .map((company) => company.symbol)
         .map((symbol) => `${symbol}.SR`);
-
-      // Temporary US ticker to test the stock market.
-      this.tickers = [...['NVDA', 'AAPL', 'A', 'AA', 'AACG'], ...this.tickers];
     } catch (error) {
       if (error instanceof Error) {
         this.logger.error(
