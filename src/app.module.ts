@@ -11,6 +11,8 @@ import { ScheduleModule } from '@nestjs/schedule';
 import { YahooFinanceModule } from './yahoo-finance/yahoo-finance.module';
 import { WebSocketModule } from 'nestjs-websocket';
 import { DataFeedModule } from './data-feed/data-feed.module';
+import { TickerProcessorModule } from './ticker-processor/ticker-processor.module';
+import { EventEmitterModule } from '@nestjs/event-emitter';
 
 @Module({
   imports: [
@@ -41,11 +43,13 @@ import { DataFeedModule } from './data-feed/data-feed.module';
       }),
       inject: [ConfigService],
     }),
+    EventEmitterModule.forRoot(),
     CommonModule,
     FmpModule,
     CompanyRegistryModule,
     YahooFinanceModule,
     DataFeedModule,
+    TickerProcessorModule,
   ],
   controllers: [AppController],
   providers: [AppService],

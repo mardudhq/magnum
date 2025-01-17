@@ -1,15 +1,12 @@
 import { Injectable, Logger, OnModuleInit } from '@nestjs/common';
+import { EventEmitter2 } from '@nestjs/event-emitter';
 import {
   InjectWebSocketProvider,
   OnMessage,
   OnOpen,
   WebSocketClient,
 } from 'nestjs-websocket';
-import { InjectModel } from '@nestjs/mongoose';
-import { Model } from 'mongoose';
-import { RealtimeStockData } from './schemas/realtime-stock-data.schema';
 import { load, Type } from 'protobufjs';
-import { IRealtimeStockData } from './interfaces/realtime-stock-data.interface';
 import { CompanyRegistryService } from 'src/company-registry/company-registry.service';
 
 @Injectable()
@@ -21,9 +18,8 @@ export class DataFeedService implements OnModuleInit {
   constructor(
     @InjectWebSocketProvider()
     private readonly ws: WebSocketClient,
-    @InjectModel(RealtimeStockData.name)
-    private readonly realtimeStockDataModel: Model<RealtimeStockData>,
     private readonly companyRegistryService: CompanyRegistryService,
+    private readonly eventEmitter: EventEmitter2,
   ) {}
 
   async onModuleInit() {
@@ -53,28 +49,10 @@ export class DataFeedService implements OnModuleInit {
   @OnMessage()
   async message(data: WebSocketClient.Data) {
     try {
-      const message = this.ticker
+      const payload = this.ticker
         .decode(Buffer.from(data.toString(), 'base64'))
-        .toJSON() as IRealtimeStockData;
-
-      const {
-        id,
-        exchange,
-        time,
-        price,
-        change,
-        changePercent,
-        quoteType,
-        marketHours,
-      } = message;
-
-      const d = new Date(+time);
-
-      console.log(
-        `[${d.getDay()}/${d.getMonth() + 1}/${d.getFullYear()} ${d.toLocaleTimeString()}]\t${id}\t${price.toFixed(2)}\t${change.toFixed(2)}\t${changePercent.toFixed(2)}`,
-      );
-
-      await this.realtimeStockDataModel.create(message);
+        .toJSON();
+      this.eventEmitter.emit('ticker.received', payload);
     } catch (error) {
       this.logger.error(
         `Websocket error in ${DataFeedService.name}: ${error.message}`,

@@ -6,6 +6,7 @@ import { Document } from 'mongoose';
   timeseries: {
     timeField: 'time',
     metaField: 'id',
+    granularity: 'seconds',
   },
 })
 export class RealtimeStockData extends Document {
