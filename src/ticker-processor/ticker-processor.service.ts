@@ -1,5 +1,5 @@
 import { Injectable, Logger, ValidationPipe } from '@nestjs/common';
-import { OnEvent } from '@nestjs/event-emitter';
+import { EventEmitter2, OnEvent } from '@nestjs/event-emitter';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { TickerDto } from 'src/common/dto/ticker.dto';
@@ -16,6 +16,7 @@ export class TickerProcessorService {
   constructor(
     @InjectModel(Ticker.name)
     private readonly tickerModel: Model<Ticker>,
+    private readonly eventEmitter: EventEmitter2,
   ) {}
 
   // TODO: implement custom param pipe
@@ -35,7 +36,11 @@ export class TickerProcessorService {
       console.log(
         `${ticker.time.toLocaleDateString()} ${ticker.time.toLocaleTimeString()}\t${ticker.id}\t${ticker.price.toFixed(2)}`,
       );
+      // Store it in the database
       await this.tickerModel.create(ticker);
+
+      // Send event to ticker streamer gateway
+      this.eventEmitter.emit('ticker.processed', ticker);
     } catch (error) {
       console.log(error);
       if (error instanceof Error) {

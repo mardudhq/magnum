@@ -13,6 +13,7 @@ import { WebSocketModule } from 'nestjs-websocket';
 import { DataFeedModule } from './data-feed/data-feed.module';
 import { TickerProcessorModule } from './ticker-processor/ticker-processor.module';
 import { EventEmitterModule } from '@nestjs/event-emitter';
+import { TickerStreamerModule } from './ticker-streamer/ticker-streamer.module';
 
 @Module({
   imports: [
@@ -50,6 +51,7 @@ import { EventEmitterModule } from '@nestjs/event-emitter';
     YahooFinanceModule,
     DataFeedModule,
     TickerProcessorModule,
+    TickerStreamerModule,
   ],
   controllers: [AppController],
   providers: [AppService],
