@@ -36,6 +36,7 @@ export default class TickerStreamerGateway
   }
 
   handleDisconnect(client: Socket) {
+    this.subscriptions.delete(client.id);
     this.logger.log(`Client disconnected: ${client.id}`);
   }
 
