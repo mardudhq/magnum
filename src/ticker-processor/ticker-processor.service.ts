@@ -19,6 +19,10 @@ export class TickerProcessorService {
   ) {}
 
   // TODO: implement custom param pipe
+  // ...
+  // Couldn't find a reliable way, might migrate this to
+  // another nest microservice and use pipes & interceptors
+  // there.
   @OnEvent('ticker.received')
   async handleTickerProcessing(payload: any) {
     try {
