@@ -9,7 +9,7 @@ import { Document } from 'mongoose';
     granularity: 'seconds',
   },
 })
-export class RealtimeStockData extends Document {
+export class Ticker extends Document {
   @Prop({ required: true })
   time: Date;
 
@@ -32,5 +32,4 @@ export class RealtimeStockData extends Document {
   priceHint: string;
 }
 
-export const RealtimeStockDataSchema =
-  SchemaFactory.createForClass(RealtimeStockData);
+export const TickerSchema = SchemaFactory.createForClass(Ticker);
