@@ -15,7 +15,7 @@ export class CompanyRegistryService {
   ) {}
 
   findAll() {
-    return this.companyRegisteryModel.find({});
+    return this.companyRegisteryModel.find({}).exec();
   }
 
   findBySymbol(symbol: string) {
@@ -42,7 +42,6 @@ export class CompanyRegistryService {
     }
   }
 
-  // TODO: This needs to be scheduled
   async performCompanyRegistryInsertion() {
     try {
       // Fetch symbols concurrently
