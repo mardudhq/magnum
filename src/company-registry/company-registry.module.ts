@@ -5,13 +5,13 @@
  */
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
+import { CompanyRegistryController } from './company-registry.controller';
+import { CompanyRegistryService } from './company-registry.service';
+import { CompanyRegistryScheduler } from './scheduler/company-registry.scheduler';
 import {
   CompanyRegistry,
   CompanyRegistrySchema,
 } from './schemas/company-registry.schema';
-import { CompanyRegistryService } from './company-registry.service';
-import { CompanyRegistryController } from './company-registry.controller';
-import { CompanyRegistryScheduler } from './company-registry-scheduler';
 
 @Module({
   imports: [
