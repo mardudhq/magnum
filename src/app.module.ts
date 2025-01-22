@@ -1,19 +1,18 @@
 import { Logger, Module } from '@nestjs/common';
+import { ConfigModule, ConfigService } from '@nestjs/config';
+import { EventEmitterModule } from '@nestjs/event-emitter';
+import { MongooseModule } from '@nestjs/mongoose';
+import { ScheduleModule } from '@nestjs/schedule';
+import { Connection } from 'mongoose';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { ConfigModule, ConfigService } from '@nestjs/config';
 import { CommonModule } from './common/common.module';
-import { MongooseModule } from '@nestjs/mongoose';
-import { Connection } from 'mongoose';
-import { FmpModule } from './fmp/fmp.module';
 import { CompanyRegistryModule } from './company-registry/company-registry.module';
-import { ScheduleModule } from '@nestjs/schedule';
-import { YahooFinanceModule } from './yahoo-finance/yahoo-finance.module';
-import { WebSocketModule } from 'nestjs-websocket';
 import { DataFeedModule } from './data-feed/data-feed.module';
+import { FmpModule } from './fmp/fmp.module';
 import { TickerProcessorModule } from './ticker-processor/ticker-processor.module';
-import { EventEmitterModule } from '@nestjs/event-emitter';
 import { TickerStreamerModule } from './ticker-streamer/ticker-streamer.module';
+import { YahooFinanceModule } from './yahoo-finance/yahoo-finance.module';
 
 @Module({
   imports: [
@@ -34,13 +33,6 @@ import { TickerStreamerModule } from './ticker-streamer/ticker-streamer.module';
             Logger.log('MongoDB DISCONNECTED', AppModule.name),
           );
         },
-      }),
-      inject: [ConfigService],
-    }),
-    WebSocketModule.forRootAsync({
-      imports: [ConfigModule],
-      useFactory: (configService: ConfigService) => ({
-        url: configService.get<string>('YF_SERVER_URL'),
       }),
       inject: [ConfigService],
     }),

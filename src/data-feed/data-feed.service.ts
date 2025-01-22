@@ -2,18 +2,14 @@ import { Injectable, Logger, OnModuleInit } from '@nestjs/common';
 import { EventEmitter2 } from '@nestjs/event-emitter';
 import { plainToInstance } from 'class-transformer';
 import { validate } from 'class-validator';
-import {
-  InjectWebSocketProvider,
-  OnMessage,
-  OnOpen,
-  WebSocketClient,
-} from 'nestjs-websocket';
 import { load, Type } from 'protobufjs';
 import { TickerDto } from 'src/common/dto/ticker.dto';
 import { TickerError } from 'src/common/errors/ticker.error';
+import { ITicker } from 'src/common/interfaces/ticker.interface';
 import { CompanyRegistryService } from 'src/company-registry/company-registry.service';
 import { TICKER_RECEIVED_EVENT } from 'src/events/events.constant';
 import { TickerReceivedEvent } from 'src/events/ticker-received.event';
+import { RawData } from 'ws';
 
 @Injectable()
 export class DataFeedService implements OnModuleInit {
@@ -22,8 +18,6 @@ export class DataFeedService implements OnModuleInit {
   private tickers: string[];
 
   constructor(
-    @InjectWebSocketProvider()
-    private readonly ws: WebSocketClient,
     private readonly companyRegistryService: CompanyRegistryService,
     private readonly eventEmitter: EventEmitter2,
   ) {}
@@ -32,6 +26,7 @@ export class DataFeedService implements OnModuleInit {
     try {
       const root = await load('src/data-feed/proto/PricingData.proto');
       this.ticker = root.lookupType('PricingData');
+
       const companies = await this.companyRegistryService.findAll();
       this.tickers = companies
         .map((company) => company.symbol)
@@ -45,16 +40,28 @@ export class DataFeedService implements OnModuleInit {
     }
   }
 
-  @OnOpen()
-  onOpen() {
-    this.logger.log('Websocket connection established');
-    this.ws.send(JSON.stringify({ subscribe: this.tickers }));
-    this.logger.log(`Subscribed to ${this.tickers.length} tickers`);
+  getTickers() {
+    return this.tickers;
   }
 
-  // ...it smells.
-  @OnMessage()
-  async message(data: WebSocketClient.Data) {
+  async emitTicker(ticker: ITicker) {
+    const { time, change, changePercent, exchange, id, price, priceHint } =
+      ticker;
+
+    const tickerReceivedEvent = new TickerReceivedEvent(
+      time,
+      id,
+      exchange,
+      price,
+      change,
+      changePercent,
+      priceHint,
+    );
+
+    this.eventEmitter.emit(TICKER_RECEIVED_EVENT, tickerReceivedEvent);
+  }
+
+  async decodeTicker(data: RawData) {
     try {
       const payload = this.ticker
         .decode(Buffer.from(data.toString(), 'base64'))
@@ -62,35 +69,17 @@ export class DataFeedService implements OnModuleInit {
 
       const ticker = plainToInstance(TickerDto, payload);
       const errors = await validate(ticker);
-
       if (errors.length !== 0)
         throw new TickerError(
           `Ticker ${JSON.stringify(ticker)} is not valid. ValidationError: ${JSON.stringify(errors)}`,
         );
 
-      const { time, change, changePercent, exchange, id, price, priceHint } =
-        ticker;
-
-      const tickerReceivedEvent = new TickerReceivedEvent(
-        time,
-        id,
-        exchange,
-        price,
-        change,
-        changePercent,
-        priceHint,
-      );
-
-      this.eventEmitter.emit(TICKER_RECEIVED_EVENT, tickerReceivedEvent);
+      return ticker;
     } catch (error) {
       if (error instanceof TickerError) {
-        // this.logger.error(error.message);
-        // Skipped Ticker errors
-      } else {
-        this.logger.error(
-          `Websocket error in ${DataFeedService.name}: ${error.message}`,
-        );
+        // Skip this ticker. Log to a file later.
       }
+      return null;
     }
   }
 }
