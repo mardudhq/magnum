@@ -17,6 +17,7 @@ import {
 } from '@nestjs/websockets';
 import { Server, Socket } from 'socket.io';
 import { TickerDto } from 'src/common/dto/ticker.dto';
+import { TICKER_PROCESSED_EVENT } from 'src/events/events.constant';
 
 @WebSocketGateway()
 export default class TickerStreamerGateway
@@ -60,7 +61,7 @@ export default class TickerStreamerGateway
   }
 
   // Listen for ticker.processed events (emitted from ticker processor).
-  @OnEvent('ticker.processed')
+  @OnEvent(TICKER_PROCESSED_EVENT)
   async handleTickerStreaming(ticker: TickerDto) {
     this.subscriptions.forEach(async (symbols, clientId) => {
       if (symbols.indexOf(ticker.id) !== -1) {

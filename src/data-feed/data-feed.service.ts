@@ -12,6 +12,7 @@ import { load, Type } from 'protobufjs';
 import { TickerDto } from 'src/common/dto/ticker.dto';
 import { TickerError } from 'src/common/errors/ticker.error';
 import { CompanyRegistryService } from 'src/company-registry/company-registry.service';
+import { TICKER_RECEIVED_EVENT } from 'src/events/events.constant';
 import { TickerReceivedEvent } from 'src/events/ticker-received.event';
 
 @Injectable()
@@ -80,10 +81,11 @@ export class DataFeedService implements OnModuleInit {
         priceHint,
       );
 
-      this.eventEmitter.emit('ticker.received', tickerReceivedEvent);
+      this.eventEmitter.emit(TICKER_RECEIVED_EVENT, tickerReceivedEvent);
     } catch (error) {
       if (error instanceof TickerError) {
-        this.logger.error(error.message);
+        // this.logger.error(error.message);
+        // Skipped Ticker errors
       } else {
         this.logger.error(
           `Websocket error in ${DataFeedService.name}: ${error.message}`,
