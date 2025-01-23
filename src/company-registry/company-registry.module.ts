@@ -5,7 +5,6 @@
  */
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
-import { CompanyRegistryController } from './company-registry.controller';
 import { CompanyRegistryService } from './company-registry.service';
 import { CompanyRegistryScheduler } from './scheduler/company-registry.scheduler';
 import {
@@ -23,7 +22,6 @@ import {
     ]),
   ],
   providers: [CompanyRegistryService, CompanyRegistryScheduler],
-  controllers: [CompanyRegistryController],
   exports: [CompanyRegistryService],
 })
 export class CompanyRegistryModule {}
