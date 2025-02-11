@@ -1,11 +1,11 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { EventEmitter2, OnEvent } from '@nestjs/event-emitter';
-import { TickerReceivedEvent } from 'src/events/ticker-received.event';
-import { TickerProcessorService } from '../ticker-processor.service';
 import {
   TICKER_PROCESSED_EVENT,
   TICKER_RECEIVED_EVENT,
 } from 'src/events/events.constant';
+import { TickerReceivedEvent } from 'src/events/ticker-received.event';
+import { TickerProcessorService } from '../ticker-processor.service';
 
 @Injectable()
 export class TickerReceivedListener {
