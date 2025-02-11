@@ -1,4 +1,4 @@
-import { Controller } from '@nestjs/common';
+import { Controller, Get } from '@nestjs/common';
 import { MessagePattern } from '@nestjs/microservices';
 import { CompanyRegistryService } from './company-registry.service';
 
@@ -14,6 +14,8 @@ export class CompanyRegistryController {
       profileUrl: 0,
       __v: 0,
       _id: 0,
+      createdAt: 0,
+      updatedAt: 0,
     });
   }
 }
