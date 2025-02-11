@@ -8,8 +8,12 @@ export class CompanyRegistryController {
     private readonly companyRegistryService: CompanyRegistryService,
   ) {}
 
-  @MessagePattern({ cmd: 'pull-company' })
-  async pullCompanies(cmd: string) {
-    return this.companyRegistryService.findAll();
+  @MessagePattern({ cmd: 'sync-companies' })
+  async syncCompanies() {
+    return this.companyRegistryService.findAll({
+      profileUrl: 0,
+      __v: 0,
+      _id: 0,
+    });
   }
 }

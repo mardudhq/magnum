@@ -14,8 +14,8 @@ export class CompanyRegistryService {
     private readonly companyRegisteryModel: Model<CompanyRegistry>,
   ) {}
 
-  findAll() {
-    return this.companyRegisteryModel.find({}).exec();
+  findAll(projection?: Record<string, 0 | 1>) {
+    return this.companyRegisteryModel.find({}, projection).exec();
   }
 
   findBySymbol(symbol: string) {
