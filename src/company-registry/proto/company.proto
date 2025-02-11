@@ -1,0 +1,26 @@
+syntax = "proto3";
+
+package company;
+
+service CompanyService {
+  rpc SyncCompanies (SyncRequest) returns (SyncResponse);
+}
+
+message SyncRequest {}
+
+message Company {
+  string symbol = 1;
+  string nameAr = 2;
+  string nameEn = 3;
+  string tradingNameAr = 4;
+  string tradingNameEn = 5;
+  string sectorAr = 6;
+  string sectorEn = 7;
+  string isin = 8;
+  string marketType = 9;
+  bool isActive = 10;
+}
+
+message SyncResponse {
+  repeated Company companies = 1;
+}

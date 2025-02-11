@@ -3,6 +3,7 @@ import { NestFactory } from '@nestjs/core';
 import { NestExpressApplication } from '@nestjs/platform-express';
 import { AppModule } from './app.module';
 import { MicroserviceOptions, Transport } from '@nestjs/microservices';
+import { join } from 'path';
 
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
@@ -18,9 +19,10 @@ async function bootstrap() {
   );
 
   app.connectMicroservice<MicroserviceOptions>({
-    transport: Transport.TCP,
+    transport: Transport.GRPC,
     options: {
-      port: 3001,
+      package: 'company',
+      protoPath: join(__dirname, 'company-registry/proto/company.proto'),
     },
   });
 
