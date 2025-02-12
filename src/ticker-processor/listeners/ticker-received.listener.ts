@@ -60,7 +60,7 @@ export class TickerReceivedListener {
     };
 
     try {
-      this.tickerProcessorService.printTicker(ticker);
+      // this.tickerProcessorService.printTicker(ticker);
       await this.tickerProcessorService.saveTicker(ticker);
       await this.companyRegistryService.updateLastPrice(ticker);
 

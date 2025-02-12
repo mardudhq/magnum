@@ -19,6 +19,10 @@ message Company {
   string isin = 8;
   string marketType = 9;
   bool isActive = 10;
+  string lastPrice = 11;
+  string lastPriceAt = 12;
+  string change = 13;
+  string changePercent = 14;
 }
 
 message SyncResponse {

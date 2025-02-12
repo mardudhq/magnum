@@ -4,6 +4,7 @@ import { Model } from 'mongoose';
 import { ITicker } from 'src/common/interfaces/ticker.interface';
 import { fetchSymbols } from 'tadawul-symbol';
 import { CreateCompanyRegistryDto } from './dto/create-company-registry.dto';
+import { ISyncCompany } from './interfaces/sync-company.interface';
 import { CompanyRegistry } from './schemas/company-registry.schema';
 
 @Injectable()
@@ -17,6 +18,26 @@ export class CompanyRegistryService {
 
   findAll(projection?: Record<string, 0 | 1>) {
     return this.companyRegisteryModel.find({}, projection).exec();
+  }
+
+  /**
+   * Chaotic, but does the job.
+   *
+   * TODO: refactor and use ReturnType.
+   */
+  async findAllSyncCompanies(): Promise<ISyncCompany[]> {
+    const companies = await this.companyRegisteryModel
+      .find({}, { profileUrl: 0, createdAt: 0, updatedAt: 0 })
+      .lean()
+      .exec();
+
+    return companies.map(({ _id, __v, ...rest }) => ({
+      ...rest,
+      lastPrice: rest.lastPrice.toString(),
+      lastPriceAt: rest.lastPriceAt.toISOString(),
+      change: rest.change.toString(),
+      changePercent: rest.changePercent.toString(),
+    }));
   }
 
   findBySymbol(symbol: string) {

@@ -9,5 +9,5 @@ export interface ICompany {
   isin: string;
   marketType: string;
   profileUrl: string;
-  isActive: boolean;
+  isActive?: boolean;
 }

@@ -1,7 +1,7 @@
 import { Controller } from '@nestjs/common';
 import { GrpcMethod } from '@nestjs/microservices';
 import { CompanyRegistryService } from './company-registry.service';
-import { SyncCompanies } from './interfaces/sync-companies.interface';
+import { ISyncCompany } from './interfaces/sync-company.interface';
 
 /**
  * Magnum's company registry controller
@@ -19,15 +19,8 @@ export class CompanyRegistryController {
   ) {}
 
   @GrpcMethod('CompanyService')
-  async syncCompanies(): Promise<{ companies: SyncCompanies[] }> {
-    const companies = (await this.companyRegistryService.findAll({
-      profileUrl: 0,
-      __v: 0,
-      _id: 0,
-      createdAt: 0,
-      updatedAt: 0,
-    })) as SyncCompanies[];
-
+  async syncCompanies(): Promise<{ companies: ISyncCompany[] }> {
+    const companies = await this.companyRegistryService.findAllSyncCompanies();
     return { companies };
   }
 }
