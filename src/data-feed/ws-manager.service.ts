@@ -57,9 +57,9 @@ export class WsManagerService implements OnApplicationBootstrap {
   }
 
   private async handleMessage(data: RawData) {
-    const ticker = await this.dataFeedService.decodeTicker(data);
-    if (ticker) {
-      this.dataFeedService.emitTicker(ticker);
+    const rawTicker = await this.dataFeedService.decodeRawTicker(data);
+    if (rawTicker) {
+      this.dataFeedService.emitRawTicker(rawTicker);
     }
   }
 

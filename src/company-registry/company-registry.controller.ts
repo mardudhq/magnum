@@ -3,6 +3,15 @@ import { GrpcMethod } from '@nestjs/microservices';
 import { CompanyRegistryService } from './company-registry.service';
 import { SyncCompanies } from './interfaces/sync-companies.interface';
 
+/**
+ * Magnum's company registry controller
+ *
+ * This controller only exposes a gRPC endpoint
+ * to be consumed by Mardud.
+ *
+ * It returns the latest companies in its registry
+ * with their latest price, change, change percentile.
+ */
 @Controller('company-registry')
 export class CompanyRegistryController {
   constructor(

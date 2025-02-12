@@ -1,9 +1,9 @@
+import { Types } from 'mongoose';
+
 export interface ITicker {
+  symbol: string;
   time: Date;
-  id: string;
-  exchange: string;
-  price: number;
-  change: number;
-  changePercent: number;
-  priceHint: string;
+  price: Types.Decimal128;
+  change: Types.Decimal128;
+  changePercent: Types.Decimal128;
 }

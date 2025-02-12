@@ -1,7 +1,7 @@
 import { Transform } from 'class-transformer';
 import { IsDate, IsNumber, IsString } from 'class-validator';
 
-export class TickerDto {
+export class RawTickerDto {
   @IsDate()
   @Transform(({ value }) => new Date(Number(value)), { toClassOnly: true })
   time: Date;

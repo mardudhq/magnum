@@ -1,3 +1,5 @@
+import { IRawTicker } from 'src/common/interfaces/raw-ticker.interface';
+
 export class TickerReceivedEvent {
   time: Date;
   id: string;
@@ -7,21 +9,7 @@ export class TickerReceivedEvent {
   changePercent: number;
   priceHint: string;
 
-  constructor(
-    time: Date,
-    id: string,
-    exchange: string,
-    price: number,
-    change: number = 0,
-    changePercent: number = 0,
-    priceHint: string,
-  ) {
-    this.time = time;
-    this.id = id;
-    this.exchange = exchange;
-    this.price = price;
-    this.change = change;
-    this.changePercent = changePercent;
-    this.priceHint = priceHint;
+  constructor(rawTicker: IRawTicker) {
+    Object.assign(this, rawTicker);
   }
 }

@@ -16,7 +16,7 @@ import {
   WebSocketServer,
 } from '@nestjs/websockets';
 import { Server, Socket } from 'socket.io';
-import { TickerDto } from 'src/common/dto/ticker.dto';
+import { ITicker } from 'src/common/interfaces/ticker.interface';
 import { TICKER_PROCESSED_EVENT } from 'src/events/events.constant';
 
 @WebSocketGateway()
@@ -60,19 +60,20 @@ export default class TickerStreamerGateway
     console.log(this.subscriptions);
   }
 
-  // Listen for ticker.processed events (emitted from ticker processor).
+  /**
+   * Listen for ticker.processed events (emitted from ticker processor).
+   */
   @OnEvent(TICKER_PROCESSED_EVENT)
-  async handleTickerStreaming(ticker: TickerDto) {
+  async handleTickerStreaming(ticker: ITicker) {
     this.subscriptions.forEach(async (symbols, clientId) => {
-      if (symbols.indexOf(ticker.id) !== -1) {
+      if (symbols.indexOf(ticker.symbol) !== -1) {
         const client = this.server.sockets.sockets.get(clientId);
         if (client)
           client.emit('ticker', {
-            symbol: ticker.id,
-            price: ticker.price,
-            change: ticker.change,
-            changePercent: ticker.changePercent,
-            time: ticker.time.getTime(),
+            ...ticker,
+            price: ticker.price.toString(),
+            change: ticker.change.toString(),
+            changePercent: ticker.changePercent.toString(),
           });
       }
     });

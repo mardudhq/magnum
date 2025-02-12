@@ -1,9 +1,10 @@
 import { ConflictException, Injectable, Logger } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { CompanyRegistry } from './schemas/company-registry.schema';
 import { Model } from 'mongoose';
+import { ITicker } from 'src/common/interfaces/ticker.interface';
 import { fetchSymbols } from 'tadawul-symbol';
 import { CreateCompanyRegistryDto } from './dto/create-company-registry.dto';
+import { CompanyRegistry } from './schemas/company-registry.schema';
 
 @Injectable()
 export class CompanyRegistryService {
@@ -40,6 +41,37 @@ export class CompanyRegistryService {
       }
       throw error;
     }
+  }
+
+  /**
+   * Update the last price of an asset of a company,
+   * conditionally compare the saved last price and the
+   * incoming ticker payload, if it is older than the incoming
+   * ticker, then overwrite it otherwise skip it.
+   *
+   * Also if it doesn't have last price, then save it.
+   *
+   * This is because the external source gives you the snapshot of
+   * tickers after the market closes.
+   */
+  async updateLastPrice(ticker: ITicker) {
+    const { time, symbol, price, change, changePercent } = ticker;
+    return this.companyRegisteryModel.findOneAndUpdate(
+      {
+        symbol,
+        $or: [
+          { lastPriceAt: { $exists: false } },
+          { lastPriceAt: { $lt: ticker.time } },
+        ],
+      },
+      {
+        lastPrice: price,
+        lastPriceAt: time,
+        change,
+        changePercent,
+      },
+      { new: true },
+    );
   }
 
   async performCompanyRegistryInsertion() {

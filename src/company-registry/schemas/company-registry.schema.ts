@@ -1,5 +1,5 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { Document } from 'mongoose';
+import { Document, Types } from 'mongoose';
 
 @Schema({ timestamps: true, collection: 'company_registries' })
 export class CompanyRegistry extends Document {
@@ -35,6 +35,18 @@ export class CompanyRegistry extends Document {
 
   @Prop({ required: false, default: true })
   isActive?: boolean;
+
+  @Prop({ required: false, type: Types.Decimal128 })
+  lastPrice?: Types.Decimal128;
+
+  @Prop({ required: false })
+  lastPriceAt?: Date;
+
+  @Prop({ required: false, type: Types.Decimal128 })
+  change?: Types.Decimal128;
+
+  @Prop({ required: false, type: Types.Decimal128 })
+  changePercent?: Types.Decimal128;
 }
 
 export const CompanyRegistrySchema =
