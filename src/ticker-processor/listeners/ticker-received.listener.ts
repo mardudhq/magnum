@@ -46,7 +46,11 @@ export class TickerReceivedListener {
      * the number values into a Mongo Decimal128 type
      * with a precision of 2.
      */
-    const normalizedSymbol = event.id.slice(0, event.id.indexOf('.'));
+    const normalizedSymbol =
+      event.id.indexOf('.') !== -1
+        ? event.id.slice(0, event.id.indexOf('.'))
+        : event.id;
+
     const ticker: ITicker = {
       symbol: normalizedSymbol,
       time: event.time,
