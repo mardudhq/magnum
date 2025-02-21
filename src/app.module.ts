@@ -13,6 +13,7 @@ import { FmpModule } from './fmp/fmp.module';
 import { TickerProcessorModule } from './ticker-processor/ticker-processor.module';
 import { TickerStreamerModule } from './ticker-streamer/ticker-streamer.module';
 import { YahooFinanceModule } from './yahoo-finance/yahoo-finance.module';
+import { MarketDataModule } from './market-data/market-data.module';
 
 @Module({
   imports: [
@@ -44,6 +45,7 @@ import { YahooFinanceModule } from './yahoo-finance/yahoo-finance.module';
     DataFeedModule,
     TickerProcessorModule,
     TickerStreamerModule,
+    MarketDataModule,
   ],
   controllers: [AppController],
   providers: [AppService],

@@ -1,4 +1,5 @@
 import { RequestMethod, ValidationPipe } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 import { NestFactory } from '@nestjs/core';
 import { MicroserviceOptions, Transport } from '@nestjs/microservices';
 import { NestExpressApplication } from '@nestjs/platform-express';
@@ -7,6 +8,7 @@ import { AppModule } from './app.module';
 
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
+  const configService = app.get(ConfigService);
 
   app.setGlobalPrefix('api', {
     exclude: [{ path: '/', method: RequestMethod.GET }],
@@ -26,7 +28,18 @@ async function bootstrap() {
     },
   });
 
+  app.connectMicroservice<MicroserviceOptions>({
+    transport: Transport.RMQ,
+    options: {
+      urls: [configService.get<string>('RMQ_URL')],
+      queue: configService.get<string>('RMQ_QUEUE'),
+      queueOptions: {
+        durable: false,
+      },
+    },
+  });
+
   app.startAllMicroservices();
-  await app.listen(3000);
+  await app.listen(3001); // Change to 3001.. until gets dockerized..
 }
 bootstrap();

@@ -34,6 +34,8 @@
     "@nestjs/platform-socket.io": "^10.0.0",
     "@nestjs/schedule": "^4.1.2",
     "@nestjs/websockets": "^10.0.0",
+    "amqp-connection-manager": "^4.1.14",
+    "amqplib": "^0.10.5",
     "axios": "^1.7.9",
     "chalk": "^5.4.1",
     "class-transformer": "^0.5.1",
@@ -43,8 +45,8 @@
     "protobufjs": "^7.4.0",
     "reflect-metadata": "^0.1.12",
     "rxjs": "^7.8.1",
+    "tadawul-symbol": "file:../packages/tadawul-symbol",
     "ws": "^8.18.0",
-    "tadawul-symbol": "^2.0.0",
     "yahoo-finance2": "^2.13.3"
   },
   "devDependencies": {
@@ -89,5 +91,6 @@
     ],
     "coverageDirectory": "../coverage",
     "testEnvironment": "node"
-  }
+  },
+  "packageManager": "pnpm@9.15.4+sha512.b2dc20e2fc72b3e18848459b37359a32064663e5627a51e4c74b2c29dd8e8e0491483c3abb40789cfd578bf362fb6ba8261b05f0387d76792ed6e23ea3b1b6a0"
 }
