@@ -10,8 +10,8 @@ export class WsManagerService implements OnApplicationBootstrap {
 
   // Maximum number of tickers that a single client can subscribe for.
   private readonly CHUNK_SIZE = 100;
-  private wsClients: WebSocket[] = [];
   private tickers: string[] = [];
+  private wsClientsMap: Map<number, WebSocket> = new Map();
 
   constructor(
     private readonly dataFeedService: DataFeedService,
@@ -28,7 +28,7 @@ export class WsManagerService implements OnApplicationBootstrap {
       const clientId = chunkIndex + 1;
 
       this.logger.debug(`Chunk ${clientId} size: ${tickersChunk.length}`);
-      this.createWebSocketClient(clientId, tickersChunk);
+      this.createWsClient(clientId, tickersChunk);
     });
   }
 
@@ -38,36 +38,57 @@ export class WsManagerService implements OnApplicationBootstrap {
     return this.tickers.slice(start, end);
   }
 
-  private createWebSocketClient(clientId: number, tickers: string[]) {
+  private createWsClient(clientId: number, tickers: string[]): void {
     const ws = new WebSocket(this.configService.get<string>(YF_SERVER_URL));
 
-    ws.on('open', () => this.handleOpen(ws, clientId, tickers));
-    ws.on('message', (data: RawData) => this.handleMessage(data));
-    ws.on('close', () => this.handleClose(clientId));
-    ws.on('error', () => this.handleError(clientId));
+    ws.on('open', () => this.onOpen(ws, clientId, tickers));
+    ws.on('message', (data: RawData) => this.onMessage(data));
+    ws.on('close', () => this.onClose(clientId));
+    ws.on('error', () => this.onError(clientId));
 
-    this.wsClients.push(ws);
+    this.wsClientsMap.set(clientId, ws);
   }
 
-  private handleOpen(ws: WebSocket, clientId: number, tickers: string[]) {
+  private onOpen(ws: WebSocket, clientId: number, tickers: string[]) {
     ws.send(JSON.stringify({ subscribe: tickers }));
     this.logger.log(
       `Client [${clientId}] subscribed to ${tickers.length} tickers`,
     );
   }
 
-  private async handleMessage(data: RawData) {
+  private async onMessage(data: RawData) {
     const rawTicker = await this.dataFeedService.decodeRawTicker(data);
     if (rawTicker) {
       this.dataFeedService.emitRawTicker(rawTicker);
     }
   }
 
-  private handleClose(clientId: number) {
+  /**
+   * When a socket closes, caused by an error, try
+   * reconnecting by establishing a new WebSocket client
+   * with the previous tickers that the previous client was
+   * using.
+   */
+  private onClose(clientId: number) {
     this.logger.error(`Client [${clientId}] closed`);
+    this.logger.log(`Client [${clientId}] reconnecting`);
+
+    const tickers = this.getTickersChunk(clientId - 1);
+    this.createWsClient(clientId, tickers);
   }
 
-  private handleError(clientId: number) {
-    this.logger.error(`Client [${clientId}] errored`);
+  private onError(clientId: number) {
+    this.logger.error(`Client [${clientId}] error`);
+  }
+
+  /**
+   * Pick a WebSocket client from the
+   * map and force terminate it, to trigger
+   * on close event.
+   */
+  _test_reconnection_on_close() {
+    const rnd = Math.floor(Math.random() * this.wsClientsMap.size) + 1;
+    const ws = this.wsClientsMap.get(rnd);
+    ws.terminate();
   }
 }

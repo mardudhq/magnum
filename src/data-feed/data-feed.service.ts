@@ -22,6 +22,13 @@ export class DataFeedService implements OnModuleInit {
     private readonly eventEmitter: EventEmitter2,
   ) {}
 
+  /**
+   * Get all the companies listed
+   * in the database and filter only
+   * the active ones, and map the values
+   * of its symbols with a `.SR` suffix
+   * for Yahoo Finance tickers.
+   */
   async onModuleInit() {
     try {
       const root = await load('src/data-feed/proto/PricingData.proto');
@@ -29,18 +36,17 @@ export class DataFeedService implements OnModuleInit {
 
       const companies = await this.companyRegistryService.findAll();
       this.tickers = companies
+        .filter((company) => company.isActive)
         .map((company) => company.symbol)
         .map((symbol) => `${symbol}.SR`);
     } catch (error) {
-      if (error instanceof Error) {
-        this.logger.error(
-          `Error while initializing ${DataFeedService.name}: ${error.message}`,
-        );
-      }
+      this.logger.error(
+        `Error while initializing ${DataFeedService.name}: ${error instanceof Error ? error.message : error}`,
+      );
     }
   }
 
-  getTickers() {
+  getTickers(): string[] {
     return this.tickers;
   }
 
