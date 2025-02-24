@@ -60,11 +60,13 @@ export class TickerReceivedListener {
     };
 
     try {
+      const savedTicker = await this.tickerProcessorService.saveTicker(ticker);
+
       // npm run start --TICKLOG=true
-      if (process.env.npm_config_TICKLOG) {
+      if (process.env.npm_config_TICKLOG && savedTicker) {
         this.tickerProcessorService.printTicker(ticker);
       }
-      await this.tickerProcessorService.saveTicker(ticker);
+
       await this.companyRegistryService.updateLastPrice(ticker);
 
       /**

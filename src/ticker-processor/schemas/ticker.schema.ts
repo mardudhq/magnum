@@ -3,11 +3,6 @@ import { Document, Types } from 'mongoose';
 
 @Schema({
   timestamps: true,
-  timeseries: {
-    timeField: 'time',
-    metaField: 'symbol',
-    granularity: 'seconds',
-  },
 })
 export class Ticker extends Document {
   @Prop({ required: true })
@@ -27,3 +22,4 @@ export class Ticker extends Document {
 }
 
 export const TickerSchema = SchemaFactory.createForClass(Ticker);
+TickerSchema.index({ symbol: 1, time: 1 }, { unique: true });

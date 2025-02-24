@@ -54,8 +54,18 @@ export class TickerProcessorService implements OnModuleInit {
    * Save the ticker into a time-series
    * collection.
    */
-  async saveTicker(ticker: ITicker) {
-    return this.tickerModel.create(ticker);
+  async saveTicker(ticker: ITicker): Promise<ITicker | undefined> {
+    try {
+      await this.tickerModel.create(ticker);
+      return ticker; // Return the ticker on successful save
+    } catch (error) {
+      if (error.code === 11000) {
+        return; // This is a duplicate entry, skip it.
+      }
+      this.logger.error(
+        `Error has occured: ${error instanceof Error ? error.message : error}`,
+      );
+    }
   }
 
   /**
