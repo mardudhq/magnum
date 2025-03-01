@@ -1,5 +1,6 @@
+</br >
 <p align="center">
-  <img src="./assets/logo.png" alt="Mardud Logo" width="250">
+  <img src="./assets/logo.svg" alt="Mardud Logo" width="350">
 </p>
 
 ## Magnum
