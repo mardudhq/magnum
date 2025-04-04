@@ -45,7 +45,7 @@
     "protobufjs": "^7.4.0",
     "reflect-metadata": "^0.1.12",
     "rxjs": "^7.8.1",
-    "tadawul-symbol": "file:../packages/tadawul-symbol",
+    "tadawul-symbol": "file:packages/tadawul-symbol",
     "ws": "^8.18.0",
     "yahoo-finance2": "^2.13.3"
   },

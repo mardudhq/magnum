@@ -69,9 +69,12 @@ export class WsManagerService implements OnApplicationBootstrap {
    * with the previous tickers that the previous client was
    * using.
    */
-  private onClose(clientId: number) {
+  private async onClose(clientId: number) {
     this.logger.error(`Client [${clientId}] closed`);
     this.logger.log(`Client [${clientId}] reconnecting`);
+
+    this.logger.log('Waiting 1 seconds');
+    await new Promise((resolve) => setTimeout(resolve, 1000));
 
     const tickers = this.getTickersChunk(clientId - 1);
     this.createWsClient(clientId, tickers);

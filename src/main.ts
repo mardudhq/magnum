@@ -3,7 +3,6 @@ import { ConfigService } from '@nestjs/config';
 import { NestFactory } from '@nestjs/core';
 import { MicroserviceOptions, Transport } from '@nestjs/microservices';
 import { NestExpressApplication } from '@nestjs/platform-express';
-import { join } from 'path';
 import { AppModule } from './app.module';
 
 async function bootstrap() {
@@ -23,8 +22,9 @@ async function bootstrap() {
   app.connectMicroservice<MicroserviceOptions>({
     transport: Transport.GRPC,
     options: {
+      url: configService.get<string>('GRPC_URL'),
       package: 'company',
-      protoPath: join(__dirname, 'company-registry/proto/company.proto'),
+      protoPath: 'src/company-registry/proto/company.proto',
     },
   });
 
@@ -40,6 +40,6 @@ async function bootstrap() {
   });
 
   app.startAllMicroservices();
-  await app.listen(3001); // Change to 3001.. until gets dockerized..
+  await app.listen(3000);
 }
 bootstrap();
