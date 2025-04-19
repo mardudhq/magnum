@@ -10,10 +10,10 @@ import { CommonModule } from './common/common.module';
 import { CompanyRegistryModule } from './company-registry/company-registry.module';
 import { DataFeedModule } from './data-feed/data-feed.module';
 import { FmpModule } from './fmp/fmp.module';
+import { MarketDataModule } from './market-data/market-data.module';
 import { TickerProcessorModule } from './ticker-processor/ticker-processor.module';
 import { TickerStreamerModule } from './ticker-streamer/ticker-streamer.module';
 import { YahooFinanceModule } from './yahoo-finance/yahoo-finance.module';
-import { MarketDataModule } from './market-data/market-data.module';
 
 @Module({
   imports: [
@@ -39,9 +39,9 @@ import { MarketDataModule } from './market-data/market-data.module';
     }),
     EventEmitterModule.forRoot(),
     CommonModule,
-    FmpModule,
+    // FmpModule, // not needed
     CompanyRegistryModule,
-    YahooFinanceModule,
+    // YahooFinanceModule, // not needed
     DataFeedModule,
     TickerProcessorModule,
     TickerStreamerModule,
