@@ -1,10 +1,10 @@
 services:
-  app:
+  magnum:
     image: ghcr.io/mardudhq/magnum:latest
-    container_name: magnum-app
+    container_name: magnum
     restart: always
     env_file:
-      - ./app.env
+      - ./magnum.env
     ports:
       - '3001:3000'
       - '5000:5000'
