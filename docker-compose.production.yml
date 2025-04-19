@@ -1,43 +1,34 @@
-version: '3.8'
-
-name: magnum
-
 services:
-  magnum:
-    build:
-      context: .
-      dockerfile: Dockerfile
+  app:
     image: ghcr.io/mardudhq/magnum:latest
-    container_name: magnum
+    container_name: magnum-app
     restart: always
-    environment:
-      GRPC_URL: 0.0.0.0:5000
+    env_file:
+      - ./app.env
     ports:
       - '3001:3000'
       - '5000:5000'
     depends_on:
       - db
       - rabbitmq
-    volumes:
-      - .:/usr/src/app
-      - /usr/src/app/node_modules
-    command: npm run start:dev
+
   db:
     image: mongo:latest
     container_name: magnum-db
     restart: always
-    environment:
-      MONGODB_DATABASE: magnum
+    env_file:
+      - ./db.env
     ports:
       - '27017:27017'
     volumes:
       - mongo_data:/data/db
+
   rabbitmq:
     image: rabbitmq:3-management
     container_name: magnum-rabbitmq
-    environment:
-      RABBITMQ_DEFAULT_USER: rabbit
-      RABBITMQ_DEFAULT_PASS: rabbit
+    restart: always
+    env_file:
+      - ./rabbitmq.env
     ports:
       - '5672:5672'
       - '15672:15672'
