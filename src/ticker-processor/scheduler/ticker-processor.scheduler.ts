@@ -25,7 +25,7 @@ export class TickerProcessorScheduler {
    * of the fields into `ids` object.
    */
 
-  @Cron(CronExpression.EVERY_HOUR)
+  @Cron(CronExpression.EVERY_DAY_AT_7AM)
   async cleanUpDuplicates() {
     this.logger.log(`Clean up aggregation pipeline started`);
 
